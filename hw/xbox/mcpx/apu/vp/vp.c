@@ -563,6 +563,7 @@ static void fe_method(MCPXAPUState *d, uint32_t method, uint32_t argument)
             d->regs[NV_PAPU_FECTL] &= ~NV_PAPU_FECTL_FETRAPREASON;
             d->regs[NV_PAPU_FECTL] |= NV_PAPU_FECTL_FETRAPREASON_REQUESTED;
             DPRINTF("idle voice %d\n", argument);
+            qatomic_or(&d->regs[NV_PAPU_ISTS], NV_PAPU_ISTS_FETINTSTS);
             d->set_irq = true;
         } else {
             assert(!"SE2FE_IDLE_VOICE called but NV_PAPU_FETFORCE1_SE2FE_IDLE_VOICE not enabled");
